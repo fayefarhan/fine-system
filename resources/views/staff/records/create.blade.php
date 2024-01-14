@@ -3,10 +3,10 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 mt-2">
 
                 <h1>Create Record</h1>
-                <br>
+
                 <form method="post" action="{{ route('staff.records.store') }}">
                     @csrf
 
