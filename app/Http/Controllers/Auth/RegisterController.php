@@ -63,15 +63,14 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
 
-protected function create(array $data)
-{
-    return User::create([
-        'name' => $data['name'],
-        'email' => $data['email'],
-        'matric_number' => $data['matric_number'],
-        'password' => bcrypt($data['password']),
-        'role' => 'student', // Default role for new users
-    ]);
-}
-
+    protected function create(array $data)
+    {
+        return User::create([
+            'role' => 'student',
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'matric_number' => $data['matric_number'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
 }

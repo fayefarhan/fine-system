@@ -14,14 +14,14 @@ class RecordController extends Controller
     {
         $records = Record::with('student')->get();
 
-        return view('staff.record.index', compact('records'));
+        return view('staff.records.index', compact('records'));
     }
 
     public function create()
     {
         $students = User::where('role', 'student')->get();
 
-        return view('staff.record.create', compact('students'));
+        return view('staff.records.create', compact('students'));
     }
 
     public function store(Request $request)
@@ -44,15 +44,14 @@ class RecordController extends Controller
             'fine_amount' => $fineAmount,
         ]);
 
-        return redirect()->route('dashboard.index');
+        return redirect()->route('staff.records.index');
     }
 
     public function edit(Record $record)
     {
-        dd($record);
         $students = User::where('role', 'student')->get();
 
-        return view('staff.dashboard.edit', compact('record', 'students'));
+        return view('staff.records.edit', compact('record', 'students'));
     }
 
     public function update(Request $request, Record $record)
@@ -75,23 +74,23 @@ class RecordController extends Controller
             'fine_amount' => $fineAmount,
         ]);
 
-        return redirect()->route('record.index');
+        return redirect()->route('staff.records.index');
     }
 
     public function destroy(Record $record)
     {
         $record->delete();
 
-        return redirect()->route('record.index');
+        return redirect()->back();
     }
 
     private function calculateFineAmount($dueDate, $returnDate)
     {
         $dueDate = Carbon::parse($dueDate);
         $returnDate = Carbon::parse($returnDate);
-        $daysLate = $returnDate->diffInDays($dueDate, false);
-        $fineAmount = max(0, $daysLate) * 2;
 
-        return $fineAmount;
+        $daysLate = $returnDate->diffInDays($dueDate, false);
+
+        return max(0, $daysLate) * 2;
     }
 }

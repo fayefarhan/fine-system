@@ -32,8 +32,8 @@ Route::post('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout
     ->name('logout')
     ->middleware(RedirectToLogin::class);
 
-Route::prefix('staff')->middleware(['auth', 'staff'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index'])->name('staff.dashboard.index');
+Route::prefix('staff')->name('staff.')->middleware(['auth', 'staff'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::resource('records', RecordController::class);
 });
