@@ -27,20 +27,21 @@ class RecordController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'book_name' => 'required',
-            'matric_number' => 'required|exists:users,matric_number',
-            'issue_date' => 'required|date',
-            'due_date' => 'required|date',
+            'book_name' => ['required', 'unique:records,book_name'],
+            'matric_number' => ['required', 'exists:users,matric_number'],
+            'issue_date' => ['required', 'date', 'before_or_equal:today'],
+            'due_date' => ['required', 'date', 'after_or_equal:issue_date'],
+            'return_date' => ['required', 'date'],
         ]);
 
         $fineAmount = $this->calculateFineAmount($request->due_date, $request->return_date);
 
         Record::create([
-            'book_name' => $request->book_name,
-            'matric_number' => $request->matric_number,
-            'issue_date' => $request->issue_date,
-            'due_date' => $request->due_date,
-            'return_date' => $request->return_date,
+            'book_name' => $request['book_name'],
+            'matric_number' => $request['matric_number'],
+            'issue_date' => $request['issue_date'],
+            'due_date' => $request['due_date'],
+            'return_date' => $request['return_date'],
             'fine_amount' => $fineAmount,
         ]);
 
@@ -57,20 +58,21 @@ class RecordController extends Controller
     public function update(Request $request, Record $record)
     {
         $request->validate([
-            'book_name' => 'required',
-            'matric_number' => 'required|exists:users,matric_number',
-            'issue_date' => 'required|date',
-            'due_date' => 'required|date',
+            'book_name' => ['required', 'unique:records,book_name,' . $record->id],
+            'matric_number' => ['required', 'exists:users,matric_number'],
+            'issue_date' => ['required', 'date', 'before_or_equal:today'],
+            'due_date' => ['required', 'date', 'after_or_equal:issue_date'],
+            'return_date' => ['required', 'date'],
         ]);
 
-        $fineAmount = $this->calculateFineAmount($request->due_date, $request->return_date);
+        $fineAmount = $this->calculateFineAmount($request['due_date'], $request['return_date']);
 
         $record->update([
-            'book_name' => $request->book_name,
-            'matric_number' => $request->matric_number,
-            'issue_date' => $request->issue_date,
-            'due_date' => $request->due_date,
-            'return_date' => $request->return_date,
+            'book_name' => $request['book_name'],
+            'matric_number' => $request['matric_number'],
+            'issue_date' => $request['issue_date'],
+            'due_date' => $request['due_date'],
+            'return_date' => $request['return_date'],
             'fine_amount' => $fineAmount,
         ]);
 
@@ -88,6 +90,10 @@ class RecordController extends Controller
     {
         $dueDate = Carbon::parse($dueDate);
         $returnDate = Carbon::parse($returnDate);
+
+        if ($returnDate->lt($dueDate)) {
+            return 0;
+        }
 
         $daysLate = $returnDate->diffInDays($dueDate, false);
 

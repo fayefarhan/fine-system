@@ -16,6 +16,9 @@
                         </label>
                         <input type="text" class="form-control" name="book_name" id="book_name"
                             value="{{ old('book_name') }}" required>
+                        @error('book_name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -31,6 +34,9 @@
                                 </option>
                             @endforeach
                         </select>
+                        @error('matric_number')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <div class="row">
@@ -40,6 +46,9 @@
                             </label>
                             <input type="date" class="form-control" name="issue_date" id="issue_date"
                                 value="{{ old('issue_date') }}" required>
+                            @error('issue_date')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group col-md-4">
@@ -48,6 +57,9 @@
                             </label>
                             <input type="date" class="form-control" name="due_date" id="due_date"
                                 value="{{ old('due_date') }}" required>
+                            @error('due_date')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group col-md-4">
@@ -56,6 +68,9 @@
                             </label>
                             <input type="date" class="form-control" name="return_date" id="return_date"
                                 value="{{ old('return_date') }}">
+                            @error('return_date')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
 
