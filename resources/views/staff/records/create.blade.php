@@ -10,26 +10,56 @@
                 <form method="post" action="{{ route('staff.records.store') }}">
                     @csrf
 
-                    <label for="book_name">Book Name:</label>
-                    <input type="text" name="book_name" required><br>
+                    <div class="form-group">
+                        <label for="book_name" class="form-label">
+                            Book Name:
+                        </label>
+                        <input type="text" class="form-control" name="book_name" id="book_name"
+                            value="{{ old('book_name') }}" required>
+                    </div>
 
-                    <label for="matric_number">Matric Number:</label>
-                    <select name="matric_number" required>
-                        @foreach ($students as $student)
-                            <option value="{{ $student->matric_number }}">{{ $student->matric_number }}</option>
-                        @endforeach
-                    </select><br>
+                    <div class="form-group">
+                        <label for="matric_number" class="form-label">
+                            Matric Number:
+                        </label>
+                        <select name="matric_number" class="form-control" required>
+                            <option value="">Select Option</option>
+                            @foreach ($students as $student)
+                                <option value="{{ $student->matric_number }}"
+                                    {{ old('matric_number') == $student->matric_number ? 'selected' : '' }}>
+                                    {{ $student->matric_number }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <label for="issue_date">Issue Date:</label>
-                    <input type="date" name="issue_date" required><br>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="issue_date" class="form-label">
+                                Issue Date:
+                            </label>
+                            <input type="date" class="form-control" name="issue_date" id="issue_date"
+                                value="{{ old('issue_date') }}" required>
+                        </div>
 
-                    <label for="due_date">Due Date:</label>
-                    <input type="date" name="due_date" required><br>
+                        <div class="form-group col-md-4">
+                            <label for="due_date" class="form-label">
+                                Due Date:
+                            </label>
+                            <input type="date" class="form-control" name="due_date" id="due_date"
+                                value="{{ old('due_date') }}" required>
+                        </div>
 
-                    <label for="return_date">Return Date:</label>
-                    <input type="date" name="return_date"><br>
+                        <div class="form-group col-md-4">
+                            <label for="return_date" class="form-label">
+                                Return Date:
+                            </label>
+                            <input type="date" class="form-control" name="return_date" id="return_date"
+                                value="{{ old('return_date') }}">
+                        </div>
+                    </div>
 
-                    <button type="submit">Create Record</button>
+                    <button type="submit" class="btn btn-success">Create Record</button>
                 </form>
             </div>
         </div>
